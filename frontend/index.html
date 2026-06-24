@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VVM Pavers | Smart Online Pavers Ordering & Management System</title>
+    
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1200;">
+        <div id="app-toast" class="toast align-items-center text-white bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toast-message">
+                    Action completed successfully.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="main-nav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <span class="brand-icon me-2"><i class="fa-solid fa-cubes"></i></span>
+                <span class="brand-text">
+    <span style="color:#ffb300;">VVM</span>
+    <span style="color:#ffb300;">Pavers</span>
+</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fa-solid fa-house me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#products"><i class="fa-solid fa-layer-group me-1"></i> Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#completed-projects"><i class="fa-solid fa-images me-1"></i> Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about"><i class="fa-solid fa-info-circle me-1"></i> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact"><i class="fa-solid fa-envelope me-1"></i> Contact</a>
+                    </li>
+                    
+                    <!-- Customer Portal Actions -->
+                    <li class="nav-item ms-lg-3" id="nav-customer-btn-container">
+                        <button class="btn btn-outline-light btn-sm px-3 py-2" onclick="showCustomerPortalModal()">
+                            <i class="fa-solid fa-circle-user me-1"></i> Client Portal
+                        </button>
+                    </li>
+                    <li class="nav-item ms-lg-3 d-none" id="nav-customer-dashboard-container">
+                        <button class="btn btn-amber btn-sm px-3 py-2" onclick="toggleCustomerDashboard(true)">
+                            <i class="fa-solid fa-user-circle me-1"></i> My Account
+                        </button>
+                    </li>
+
+                    <!-- Admin Portal Actions -->
+                    <li class="nav-item ms-lg-2" id="nav-admin-btn-container">
+                        <button class="btn btn-outline-amber btn-sm px-3 py-2" onclick="showLoginModal()">
+                            <i class="fa-solid fa-lock me-1"></i> Admin
+                        </button>
+                    </li>
+                    <li class="nav-item ms-lg-2 d-none" id="nav-logout-btn-container">
+                        <button class="btn btn-danger btn-sm px-3 py-2" onclick="handleLogout()">
+                            <i class="fa-solid fa-sign-out-alt me-1"></i> Logout
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Customer Landing Page -->
+    <div id="customer-view">
+        <!-- Hero Section -->
+        <section class="hero-section d-flex align-items-center">
+            <div class="hero-overlay"></div>
+            <div class="container hero-content text-center">
+                <div class="badge bg-amber-soft text-amber mb-3 animate-fade-in">
+                    <i class="fa-solid fa-star me-1"></i> Premium Paving Solutions
+                </div>
+                <h1 class="hero-title animate-fade-in-up">
+                    VVM <span class="gradient-text">PAVERS</span>
+                </h1>
+                <p class="hero-subtitle animate-fade-in-up delay-1">
+                    Premium quality heavy-duty paving blocks for residential pathways, commercial yards, parking lots, and garden landscapes.
+                </p>
+                <div class="hero-actions animate-fade-in-up delay-2">
+                    <a href="#products" class="btn btn-amber btn-lg me-3">
+                        <i class="fa-solid fa-cart-shopping me-2"></i> Shop Pavers
+                    </a>
+                    <a href="#contact" class="btn btn-outline-light btn-lg">
+                        <i class="fa-solid fa-phone me-2"></i> Get Quote
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section py-5">
+            <div class="container">
+                <div class="row text-center g-4">
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card">
+                            <h3>6+</h3>
+                            <p>Years Experience</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card">
+                            <h3>500+</h3>
+                            <p>Completed Projects</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card">
+                            <h3>10+</h3>
+                            <p>Paver Designs</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card">
+                            <h3>100%</h3>
+                            <p>Satisfaction Rate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="products-section py-5">
+            <div class="container">
+                <div class="section-header text-center mb-5">
+                    <span class="sub-title">Our Catalog</span>
+                    <h2 class="section-title">Premium Paver Designs</h2>
+                    <p class="section-desc">Select a paver style, use the built-in estimator to calculate your square feet requirements, and place your order instantly.</p>
+                </div>
+                
+                <div class="row g-4" id="product-container">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-amber" role="status">
+                            <span class="visually-hidden">Loading Catalog...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Completed Projects Gallery Section -->
+        <section id="completed-projects" class="projects-section py-5">
+            <div class="container">
+                <div class="section-header text-center mb-5">
+                    <span class="sub-title">Gallery Portfolio</span>
+                    <h2 class="section-title">Completed Projects Showcase</h2>
+                    <p class="section-desc">Take a tour of our successfully finished outdoor pathways, designer villa driveways, commercial yards, and industrial floor paving.</p>
+                </div>
+                
+                <div class="row g-4" id="project-gallery-container">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-amber" role="status">
+                            <span class="visually-hidden">Loading Gallery Showcase...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section py-5">
+            <div class="container">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 position-relative">
+                        <div class="image-stack">
+                            <img src="image/pavers1.jpeg" alt="VVM Pavers Installation" class="img-fluid rounded shadow-lg main-img">
+                            <img src="image/pavers2.jpeg" alt="Premium Paver Blocks" class="img-fluid rounded shadow-lg sub-img d-none d-md-block">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="sub-title text-start">Why Choose VVM Pavers</span>
+                        <h2 class="section-title text-start mb-4">Uncompromising Quality and Strength</h2>
+                        <p class="about-text">
+                            At VVM Pavers, we engineer interlocking concrete blocks designed to withstand extreme loads and atmospheric conditions. Our pavers are perfect for garden paths, parking spaces, patio decks, driveways, and industrial sites.
+                        </p>
+                        <div class="benefit-list mt-4">
+                            <div class="benefit-item d-flex align-items-start mb-3">
+                                <span class="benefit-icon me-3"><i class="fa-solid fa-shield-halved"></i></span>
+                                <div>
+                                    <h5>Extreme Durability</h5>
+                                    <p>Made from high-grade compressed concrete for maximum load-bearing strength.</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item d-flex align-items-start mb-3">
+                                <span class="benefit-icon me-3"><i class="fa-solid fa-palette"></i></span>
+                                <div>
+                                    <h5>Vibrant Colors & Patterns</h5>
+                                    <p>Available in multiple shades, textures, and geometry to complement any exterior layout.</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item d-flex align-items-start">
+                                <span class="benefit-icon me-3"><i class="fa-solid fa-leaf"></i></span>
+                                <div>
+                                    <h5>Eco-Friendly & Safe</h5>
+                                    <p>Designed for natural drainage pathways and anti-skid safety textures.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact & Enquiry Section -->
+        <section id="contact" class="contact-section py-5">
+            <div class="container">
+                <div class="glass-card contact-wrapper p-4 p-md-5">
+                    <div class="row g-5">
+                        <div class="col-md-5">
+                            <span class="sub-title text-start">Contact Us</span>
+                            <h3 class="mb-4">Get a Personalized Estimate</h3>
+                            <p class="mb-4">Have specific dimensions or custom pattern needs? Drop us a message, and our paving specialists will get in touch with you shortly.</p>
+                            
+                            <div class="contact-info-list">
+                                <div class="info-item d-flex align-items-center mb-3">
+                                    <span class="info-icon me-3"><i class="fa-solid fa-phone"></i></span>
+                                    <span>+91 82202 87295</span>
+                                </div>
+                                <div class="info-item d-flex align-items-center mb-3">
+                                    <span class="info-icon me-3"><i class="fa-brands fa-whatsapp"></i></span>
+                                    <span>+91 82202 87295</span>
+                                </div>
+                                <div class="info-item d-flex align-items-center">
+                                    <span class="info-icon me-3"><i class="fa-solid fa-location-dot"></i></span>
+                                    <a href="https://maps.app.goo.gl/XDP1THzcXNcVC2P3A"
+                                       target="_blank"
+                                       style="color:white; text-decoration:none;">
+
+                                    VVM Pavers, Sevanthampalayam, Tirupur, Tamil Nadu, India
+
+                                </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <form id="contact-form" class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="name" placeholder="John Doe" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="98765 43210" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="message" class="form-label">Your Message</label>
+                                    <textarea class="form-control" id="message" rows="4" placeholder="Tell us about your area size, preferred paver, or general inquiries..." required></textarea>
+                                </div>
+                                <div class="col-12 text-end">
+                                    <button type="submit" class="btn btn-amber px-4 py-2">
+                                        <i class="fa-solid fa-paper-plane me-2"></i> Send Inquiry
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Customer Dashboard View (Initially Hidden) -->
+    <div id="customer-dashboard-view" class="d-none py-5 mt-5">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                <div>
+                    <span class="sub-title text-start">Customer Portal</span>
+                    <h2 class="section-title text-start mb-0" id="customer-welcome-name">Welcome Back, Client</h2>
+                </div>
+                <div class="dashboard-actions mt-3 mt-md-0">
+                    <button class="btn btn-outline-amber me-2" onclick="toggleCustomerDashboard(false)">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Back to Home
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="handleCustomerLogout()">
+                        <i class="fa-solid fa-sign-out-alt me-1"></i> Log Out
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Profile Settings Card -->
+                <div class="col-lg-4">
+                    <div class="glass-card p-4 h-100">
+                        <h4 class="mb-4 text-white"><i class="fa-solid fa-user-gear text-amber me-2"></i> Account Profile</h4>
+                        <form id="customer-profile-form">
+                            <div class="mb-3">
+                                <label for="profile-name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="profile-name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="profile-email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="profile-email" readonly disabled>
+                                <div class="form-text text-secondary">Registered email address (non-modifiable).</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="profile-phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="profile-phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="profile-password" class="form-label">New Password (optional)</label>
+                                <input type="password" class="form-control" id="profile-password" placeholder="Leave blank to keep same" autocomplete="new-password">
+                            </div>
+                            <button type="submit" class="btn btn-amber w-100 py-2.5 fw-bold mt-2">
+                                <i class="fa-solid fa-save me-1"></i> Update Account Profile
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Order History Card -->
+                <div class="col-lg-8">
+                    <div class="glass-card p-4 h-100">
+                        <h4 class="mb-4 text-white"><i class="fa-solid fa-clock-rotate-left text-amber me-2"></i> Order History & Estimates</h4>
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Date</th>
+                                        <th>Paver Model</th>
+                                        <th>Area Size</th>
+                                        <th>Total cost</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customer-orders-table-body">
+                                    <!-- Dynamic rows loaded by script.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin View (Initially Hidden) -->
+    <div id="admin-view" class="d-none py-5 mt-5">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                <div>
+                    <span class="sub-title text-start">Management Console</span>
+                    <h2 class="section-title text-start mb-0">Admin Dashboard</h2>
+                </div>
+                <div class="dashboard-actions mt-3 mt-md-0">
+                    <button class="btn btn-amber me-2" onclick="showAddProductModal()">
+                        <i class="fa-solid fa-plus me-1"></i> Add New Paver
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="handleLogout()">
+                        <i class="fa-solid fa-sign-out-alt me-1"></i> Log Out
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <ul class="nav nav-tabs custom-tabs mb-4" id="adminTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="products-tab" data-bs-toggle="tab" data-bs-target="#admin-products" type="button" role="tab">
+                        <i class="fa-solid fa-cubes me-1"></i> Products Catalog
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#admin-orders" type="button" role="tab">
+                        <i class="fa-solid fa-receipt me-1"></i> Orders Received
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="inquiries-tab" data-bs-toggle="tab" data-bs-target="#admin-inquiries" type="button" role="tab">
+                        <i class="fa-solid fa-comments me-1"></i> Customer Inquiries
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="admin-projects-tab" data-bs-toggle="tab" data-bs-target="#admin-projects" type="button" role="tab">
+                        <i class="fa-solid fa-images me-1"></i> Completed Projects
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="admin-customers-tab" data-bs-toggle="tab" data-bs-target="#admin-customers" type="button" role="tab">
+                        <i class="fa-solid fa-users me-1"></i> Registered Customers
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="admin-profile-tab" data-bs-toggle="tab" data-bs-target="#admin-profile" type="button" role="tab">
+                        <i class="fa-solid fa-user-shield me-1"></i> Security Profile
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Contents -->
+            <div class="tab-content glass-card p-4" id="adminTabsContent">
+                <!-- Products Management Tab -->
+                <div class="tab-pane fade show active" id="admin-products" role="tabpanel">
+                    <h4 class="mb-3 text-white">Manage Paver Offerings</h4>
+                    <div class="table-responsive">
+                        <table class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Color</th>
+                                    <th>Price / Sq Ft</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-product-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Orders Management Tab -->
+                <div class="tab-pane fade" id="admin-orders" role="tabpanel">
+                    <h4 class="mb-3 text-white">Customer Orders Tracking</h4>
+                    <div class="table-responsive">
+                        <table class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Customer Info</th>
+                                    <th>Product Ordered</th>
+                                    <th>Area (Sq Ft)</th>
+                                    <th>Total Cost</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Inquiries Tab -->
+                <div class="tab-pane fade" id="admin-inquiries" role="tabpanel">
+                    <h4 class="mb-3 text-white">Contact Submissions</h4>
+                    <div class="table-responsive">
+                        <table class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Message</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-inquiries-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Completed Projects Tab Pane -->
+                <div class="tab-pane fade" id="admin-projects" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-white mb-0">Manage Completed Projects Gallery</h4>
+                        <button class="btn btn-sm btn-amber" onclick="showAddProjectModal()">
+                            <i class="fa-solid fa-plus me-1"></i> Add Project Photo
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Completion Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-projects-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Registered Customers Tab Pane -->
+                <div class="tab-pane fade" id="admin-customers" role="tabpanel">
+                    <h4 class="mb-3 text-white">Registered Clients Listing</h4>
+                    <div class="table-responsive">
+                        <table class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Joined Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-customers-table-body">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Admin Profile Credentials Pane -->
+                <div class="tab-pane fade" id="admin-profile" role="tabpanel">
+                    <h4 class="mb-4 text-white">Modify Admin Credentials</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form id="admin-profile-form">
+                                <div class="mb-3">
+                                    <label for="admin-profile-username" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="admin-profile-username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="admin-profile-email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="admin-profile-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="admin-profile-password" class="form-label">New Password (optional)</label>
+                                    <input type="password" class="form-control" id="admin-profile-password" placeholder="Leave blank to keep same" autocomplete="new-password">
+                                </div>
+                                <button type="submit" class="btn btn-amber py-2.5 px-4 fw-bold mt-2">
+                                    <i class="fa-solid fa-save me-1"></i> Update Security Credentials
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-4 mt-5">
+        <div class="container text-center text-secondary">
+            <div class="social-links mb-3">
+                <a href="https://wa.me/918220287295" target="_blank" class="mx-2 text-secondary"><i class="fa-brands fa-whatsapp fa-lg"></i></a>
+                <a href="#" class="mx-2 text-secondary"><i class="fa-brands fa-facebook fa-lg"></i></a>
+                <a href="https://www.instagram.com/vvmpavers_tpr?igsh=MXczcjhvOWFhemdmYQ==" target="_blank" class="mx-2 text-secondary"><i class="fa-brands fa-instagram fa-lg"></i></a>
+            </div>
+            <p class="mb-0">© 2026 VVM Pavers. Built with Premium Standards. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Quick Connect -->
+    <a href="https://wa.me/918220287295?text=Hello%20VVM%20Pavers%2C%20I'm%20interested%20in%20your%20paver%20solutions." target="_blank" class="floating-whatsapp" id="whatsapp-float">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="tooltip-text">Chat with us!</span>
+    </a>
+
+    <!-- Admin Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-white fw-bold" id="loginModalLabel">
+                        <i class="fa-solid fa-lock text-amber me-2"></i> Admin Authentication
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="closeModal('loginModal')"></button>
+                </div>
+                <div class="modal-body pt-4">
+                    <form id="admin-login-form">
+                        <div class="mb-3">
+                            <label for="admin-username" class="form-label">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fa-solid fa-user"></i></span>
+                                <input type="text" class="form-control" id="admin-username" placeholder="Enter admin username" required autocomplete="username">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="admin-password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fa-solid fa-key"></i></span>
+                                <input type="password" class="form-control" id="admin-password" placeholder="Enter password" required autocomplete="current-password">
+                            </div>
+                        </div>
+                        <div class="text-end mb-3">
+                            <a href="#" class="text-amber text-decoration-none" onclick="toggleForgotPassword('admin')">Forgot Password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-amber w-100 py-2.5 fw-bold">
+                            <i class="fa-solid fa-sign-in-alt me-1"></i> Access Dashboard
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal (Add/Edit) -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-white fw-bold" id="productModalTitle">Add New Paver</h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="closeModal('productModal')"></button>
+                </div>
+                <div class="modal-body pt-4">
+                    <form id="product-form">
+                        <input type="hidden" id="product-id">
+                        
+                        <div class="mb-3">
+                           <label for="product-name" class="form-label">Paver Name</label>
+                            <input type="text" class="form-control" id="product-name" placeholder="e.g. Zigzag Heavy Duty" required>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="product-type" class="form-label">Type</label>
+                                <input type="text" class="form-control" id="product-type" placeholder="e.g. Interlocking" required>
+                            </div>
+                            <div class="col-6">
+                                <label for="product-color" class="form-label">Color Shading</label>
+                                <input type="text" class="form-control" id="product-color" placeholder="e.g. Red-Yellow Mix" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="product-price" class="form-label">Price per Sq Ft (₹)</label>
+                            <input type="number" step="0.01" class="form-control" id="product-price" placeholder="e.g. 45" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Paver Photos (URLs separated by commas, or single upload)</label>
+                            <ul class="nav nav-pills nav-justified bg-dark p-1 rounded mb-2" id="photoSourceTabs" role="tablist">
+                                <li class="nav-item">
+                                    <button class="nav-link active py-1.5" id="photo-url-tab" data-bs-toggle="pill" data-bs-target="#photo-url-pane" type="button" role="tab">Image URL(s)</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link py-1.5" id="photo-upload-tab" data-bs-toggle="pill" data-bs-target="#photo-upload-pane" type="button" role="tab">Upload File</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="photoTabsContent">
+                                <div class="tab-pane fade show active" id="photo-url-pane" role="tabpanel">
+                                    <input type="text" class="form-control" id="product-image-url" placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg">
+                                    <div class="form-text text-secondary">To show multiple photos, separate each absolute link with a comma.</div>
+                                </div>
+                                <div class="tab-pane fade" id="photo-upload-pane" role="tabpanel">
+                                    <input type="file" class="form-control" id="product-image-file" accept="image/*">
+                                    <div class="form-text text-secondary">Will be saved locally as an optimized data payload.</div>
+                                </div>
+                            </div>
+                            <!-- Image Preview Area -->
+                            <div class="mt-3 text-center d-none" id="image-preview-container">
+                                <label class="form-label d-block text-start">Preview</label>
+                                <img src="" id="image-preview" class="img-thumbnail rounded bg-dark border-secondary" style="max-height: 150px;">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-amber w-100 py-2.5 fw-bold mt-2">
+                            <i class="fa-solid fa-save me-1"></i> Save Paver Product
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Login & Register Modal -->
+    <div class="modal fade" id="customerPortalModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-white fw-bold" id="customerPortalModalLabel">
+                        <i class="fa-solid fa-circle-user text-amber me-2"></i> Client Portal
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="closeModal('customerPortalModal')"></button>
+                </div>
+                <div class="modal-body pt-4">
+                    <ul class="nav nav-pills nav-justified bg-dark p-1 rounded mb-4" id="customerAuthTabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active py-2 fw-bold" id="cust-login-tab" data-bs-toggle="pill" data-bs-target="#cust-login-pane" type="button" role="tab">Log In</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link py-2 fw-bold" id="cust-register-tab" data-bs-toggle="pill" data-bs-target="#cust-register-pane" type="button" role="tab">Register</button>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content" id="customerAuthTabsContent">
+                        <!-- Login Pane -->
+                        <div class="tab-pane fade show active" id="cust-login-pane" role="tabpanel">
+                            <form id="customer-login-form">
+                                <div class="mb-3">
+                                    <label for="cust-login-email" class="form-label">Email Address</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fa-solid fa-envelope"></i></span>
+                                        <input type="email" class="form-control" id="cust-login-email" placeholder="name@example.com" required autocomplete="email">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cust-login-password" class="form-label">Password</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fa-solid fa-key"></i></span>
+                                        <input type="password" class="form-control" id="cust-login-password" placeholder="Enter your password" required autocomplete="current-password">
+                                    </div>
+                                </div>
+                                <div class="text-end mb-3">
+                                    <a href="#" class="text-amber text-decoration-none" onclick="toggleForgotPassword('customer')">Forgot Password?</a>
+                                </div>
+                                <button type="submit" class="btn btn-amber w-100 py-2.5 fw-bold">
+                                    <i class="fa-solid fa-sign-in-alt me-1"></i> Access Portal
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Register Pane -->
+                        <div class="tab-pane fade" id="cust-register-pane" role="tabpanel">
+                            <form id="customer-register-form">
+                                <div class="mb-3">
+                                    <label for="cust-reg-name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="cust-reg-name" placeholder="John Doe" required autocomplete="name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cust-reg-email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="cust-reg-email" placeholder="john@example.com" required autocomplete="email">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cust-reg-phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="cust-reg-phone" placeholder="9876543210" required autocomplete="tel">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cust-reg-password" class="form-label">Create Password</label>
+                                    <input type="password" class="form-control" id="cust-reg-password" placeholder="Min 6 characters" required autocomplete="new-password">
+                                </div>
+                                <button type="submit" class="btn btn-amber w-100 py-2.5 fw-bold mt-2">
+                                    <i class="fa-solid fa-user-plus me-1"></i> Register Account
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-white fw-bold"><i class="fa-solid fa-envelope-open-text text-amber me-2"></i> Account Recovery</h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="closeModal('forgotPasswordModal')"></button>
+                </div>
+                <div class="modal-body pt-4">
+                    <form id="forgot-password-form">
+                        <input type="hidden" id="forgot-role" value="customer">
+                        <p class="text-secondary small mb-4">Enter your registered email address and we'll generate a simulated password recovery link. You'll be able to click this link to update your credentials immediately.</p>
+                        <div class="mb-4">
+                            <label for="forgot-email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="forgot-email" placeholder="Enter your email" required>
+                        </div>
+                        <button type="submit" class="btn btn-amber w-100 py-2.5 fw-bold mb-3">
+                            <i class="fa-solid fa-paper-plane me-1"></i> Generate Recovery Link
+                        </button>
+                        
+                        <!-- Link Preview Area -->
+                        <div id="simulated-link-container" class="d-none p-3 bg-dark rounded border border-warning mb-2">
+                            <span class="text-warning fw-bold d-block mb-1"><i class="fa-solid fa-flask me-1"></i> Simulation Email Delivered!</span>
+                            <small class="text-secondary d-block mb-2">Since SMTP is simulated, click this generated reset URL to continue:</small>
+                            <a href="" id="simulated-reset-link" class="text-amber break-all" style="font-size: 13px; word-break: break-all;" target="_blank"></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-white fw-bold"><i class="fa-solid fa-key text-amber me-2"></i> Set New Password</h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="closeModal('resetPasswordModal')"></button>
+                </div>
+                <div class="modal-body pt-4">
+                    <form id="reset-password-form">
+                        <input type="hidden" id="reset-token">
+                        <input type="hidden" id="reset-role">
+                        <div class="mb-4">
+                            <label for="reset-new-password" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="reset-new-password" placeholder="Enter new password (min 6 characters)" required>
+                        </div>
+                        <button type="submit" class="btn btn-amber w-100 py-2.5 fw-bold">
+                            <i class="fa-solid fa-circle-check me-1"></i> Update & Save Password
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paver Product Details & Order Modal -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content glass-card border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-white fw-bold" id="detailModalTitle"><i class="fa-solid fa-circle-info text-amber me-2"></i> Paver Block Details</h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="closeModal('productDetailModal')"></button>
+                </div>
+                <div class="modal-body pt-4">
+                    <div class="row g-4">
+                        <!-- Gallery Slider -->
+                        <div class="col-md-6">
+                            <div id="detailProductCarousel" class="carousel slide rounded overflow-hidden border border-secondary" data-bs-ride="carousel">
+                                <div class="carousel-indicators" id="carousel-indicators-container">
+                                    <!-- Generated Dynamically -->
+                                </div>
+                                <div class="carousel-inner" id="carousel-inner-container" style="height: 300px; background: #121212;">
+                                    <!-- Generated Dynamically -->
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#detailProductCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#detailProductCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Specs & Cost Calculator -->
+                        <div class="col-md-6">
+                            <h4 class="text-white fw-bold mb-2" id="detail-product-name">Zigzag Heavy Duty</h4>
+                            <span class="badge bg-amber-soft text-amber mb-3" id="detail-product-type">Heavy Load Class</span>
+                            
+                            <div class="specs-grid p-3 rounded bg-dark-glass mb-3">
+                                <div class="d-flex justify-content-between text-secondary mb-2">
+                                    <span><i class="fa-solid fa-palette text-amber me-1"></i> Color Mix:</span>
+                                    <span class="text-white fw-bold" id="detail-product-color">Red-Grey</span>
+                                </div>
+                                <div class="d-flex justify-content-between text-secondary">
+                                    <span><i class="fa-solid fa-money-bill-wave text-amber me-1"></i> Price:</span>
+                                    <span class="text-amber fw-bold" id="detail-product-price">₹45.00 / Sq Ft</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Dynamic Calculator Panel -->
+                            <div class="calc-panel p-3 rounded mb-2">
+                                <span class="calc-title">Live Estimator</span>
+                                <div class="d-flex align-items-center gap-3 mt-2">
+                                    <input type="number" class="calc-input py-1 px-2" id="detail-calc-input" value="500" min="1" oninput="calculateDetailPrice()">
+                                    <div class="calc-result flex-grow-1 text-end">
+                                        <span class="small text-secondary">Est. Price:</span>
+                                        <div class="fs-5 fw-bold text-amber" id="detail-calc-result">₹22,500.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="border-secondary my-4">
+                    
+                    <!-- Order Checkout Form -->
+                    <form id="detail-order-form">
+                        <input type="hidden" id="detail-order-product-id">
+                        <input type="hidden" id="detail-order-product-name">
+                        <input type="hidden" id="detail-order-rate">
+                        <input type="hidden" id="detail-order-area">
+                        <input type="hidden" id="detail-order-total">
+                        
+                        <h5 class="text-white mb-3"><i class="fa-solid fa-file-invoice text-amber me-2"></i> Submit Order Enquiry</h5>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="detail-customer-name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="detail-customer-name" placeholder="Enter your name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="detail-customer-phone" class="form-label">Mobile Phone Number</label>
+                                <input type="tel" class="form-control" id="detail-customer-phone" placeholder="10-digit mobile number" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mt-2">
+                            <div class="col-12 text-end">
+                                <button type="submit" class="btn btn-amber px-4 py-2.5 fw-bold mt-3">
+                                    <i class="fa-solid fa-circle-check me-1"></i> Place Order Enquiry
+                                </button>
+                                <button type="button" id="detail-whatsapp-order-btn" class="btn btn-success px-4 py-2.5 fw-bold d-none mt-3" onclick="sendOrderToWhatsAppFromDetail()">
+                                    <i class="fa-brands fa-whatsapp me-1"></i> Send Order to WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completed Project Modal (Add/Edit) -->
+    <div class="modal fade" id="completedProjectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-white fw-bold" id="completedProjectModalTitle">Add Completed Project</h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="closeModal('completedProjectModal')"></button>
+                </div>
+                <div class="modal-body pt-4">
+                    <form id="completed-project-form">
+                        <input type="hidden" id="completed-project-id">
+                        
+                        <div class="mb-3">
+                            <label for="completed-project-title" class="form-label">Project Title</label>
+                            <input type="text" class="form-control" id="completed-project-title" placeholder="e.g. Elegant Villa Pathway" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="completed-project-description" class="form-label">Project Description</label>
+                            <textarea class="form-control" id="completed-project-description" rows="3" placeholder="Tell us about the design, scale, or layout pattern..." required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Project Photo</label>
+                            <ul class="nav nav-pills nav-justified bg-dark p-1 rounded mb-2" id="projectPhotoSourceTabs" role="tablist">
+                                <li class="nav-item">
+                                    <button class="nav-link active py-1.5" id="project-photo-url-tab" data-bs-toggle="pill" data-bs-target="#project-photo-url-pane" type="button" role="tab">Image URL</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link py-1.5" id="project-photo-upload-tab" data-bs-toggle="pill" data-bs-target="#project-photo-upload-pane" type="button" role="tab">Upload File</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="projectPhotoTabsContent">
+                                <div class="tab-pane fade show active" id="project-photo-url-pane" role="tabpanel">
+                                    <input type="url" class="form-control" id="completed-project-image-url" placeholder="https://example.com/project.jpg">
+                                </div>
+                                <div class="tab-pane fade" id="project-photo-upload-pane" role="tabpanel">
+                                    <input type="file" class="form-control" id="completed-project-image-file" accept="image/*">
+                                    <div class="form-text text-secondary">Will be saved directly as dynamic data payload.</div>
+                                </div>
+                            </div>
+                            <!-- Project Image Preview Area -->
+                            <div class="mt-3 text-center d-none" id="project-image-preview-container">
+                                <label class="form-label d-block text-start">Preview</label>
+                                <img src="" id="project-image-preview" class="img-thumbnail rounded bg-dark border-secondary" style="max-height: 150px;">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-amber w-100 py-2.5 fw-bold mt-2">
+                            <i class="fa-solid fa-save me-1"></i> Save Gallery Showcase
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

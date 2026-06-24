@@ -1,0 +1,21 @@
+[2026-05-31T14:00:21.793123300] Role: Admin, Email: jayakumar822028@gmail.com
+Reset Link: http://localhost:8081/index.html?action=resetPassword&token=e2e63670-2efa-4a42-a5b1-8a987d453639&role=admin
+
+[2026-05-31T14:00:36.292792300] Role: Admin, Email: jayakumar822028@gmail.com
+Reset Link: http://localhost:8081/index.html?action=resetPassword&token=ea482d47-a5bb-450f-b760-dd73d76f5f04&role=admin
+
+[2026-05-31T14:01:59.665812400] Role: Admin, Email: jayakumar822028@gmail.com
+Reset Link: http://localhost:8081/index.html?action=resetPassword&token=4aed1aef-4fc9-4de1-9e13-70fc1ad407b2&role=admin
+
+[2026-05-31T14:02:56.509531100] Role: Admin, Email: jayakumar822028@gmail.com
+Reset Link: http://localhost:8081/index.html?action=resetPassword&token=e13bbc1d-8b57-4fba-b0cb-8fb9b696e401&role=admin
+
+[2026-05-31T14:03:06.720646500] Role: Admin, Email: jayakumar822028@gmail.com
+Reset Link: http://localhost:8081/index.html?action=resetPassword&token=e0f64335-880a-4275-8fd4-49c24374ee7c&role=admin
+
+[2026-05-31T14:07:26.220040700] Role: Admin, Email: jayakumar822028@gmail.com
+Reset Link: http://localhost:8081/index.html?action=resetPassword&token=e5fd0ce9-2088-4eb2-abea-2baaac8b1023&role=admin
+
+[2026-05-31T14:42:15.726615] Role: Admin, Email: jayakumar822028@gmail.com
+Reset Link: http://localhost:8081/index.html?action=resetPassword&token=721d0139-9088-4527-a8d2-572f08d006ea&role=admin
+
