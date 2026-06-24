@@ -1,7 +1,7 @@
 // VVM Pavers – Full Client & Admin Logic
 
-const BACKEND_URL = "http://localhost:9090";
-const ADMIN_PHONE = "8220287295";
+const BACKEND_URL = "";
+const ADMIN_PHONE = "9080606613";
 
 // ── Bootstrap Modal instances ──────────────────────────────────────────────
 let loginModalInstance;
